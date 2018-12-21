@@ -13,6 +13,7 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
+  let!(:user) { create(:user) }
   it { should validate_presence_of(:username) }
   it { should validate_presence_of(:password_digest) }
   it { should validate_presence_of(:session_token) }
@@ -20,19 +21,27 @@ RSpec.describe User, type: :model do
   it { should have_many(:goals) }
 
   describe "uniqueness" do
-    before :each do
-      create(:user)
-    end
+    # before :each do
+    #   create(:user)
+    # end
     it { should validate_uniqueness_of(:session_token) }
     it { should validate_uniqueness_of(:username) }
   end
 
   describe "is_password?" do
-    it 'blahblah'
+    # let!(:user) { create(:user) }
+
+    it 'returns true when valid password' do
+      expect(user.is_password?("password")).to eq true
+    end 
+
+    it 'returns false when invalid password' do
+      expect(user.is_password?("notpassword")).to eq false
+    end 
   end
 
   describe "find_by_credentials?" do
-    it 'blahblah'
+    let!(:user) {  }
   end
 
   describe "reset_session_token!" do
